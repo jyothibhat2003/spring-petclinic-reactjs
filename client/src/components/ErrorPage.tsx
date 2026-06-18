@@ -15,7 +15,7 @@ export default class ErrorPage extends React.Component<void, IErrorPageState> {
   }
 
   componentDidMount() {
-    fetch(url('/oops'))
+    fetch(url('/api/oops'))
       .then(response => response.text()
         .then(body => {
           const error = body ? JSON.parse(body) : {};
