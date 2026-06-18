@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { url } from '../util';
 
 interface IErrorPageState {
   error?: {
-    status: string;
-    message: string;
+    status: number;
+    message?: string;
   };
 }
 
@@ -14,9 +15,23 @@ export default class ErrorPage extends React.Component<void, IErrorPageState> {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/api/oups')
-      .then(response => response.json())
-      .then(error => this.setState({error}));
+    fetch(url('/oops'))
+      .then(response => response.text()
+        .then(body => {
+          const error = body ? JSON.parse(body) : {};
+          this.setState({
+            error: {
+              status: response.status,
+              message: error.message || error.exMessage || response.statusText || 'Request failed'
+            }
+          });
+        }))
+      .catch(error => this.setState({
+        error: {
+          status: 0,
+          message: error.message || 'Unable to reach backend'
+        }
+      }));
   }
 
   render() {
@@ -32,7 +47,7 @@ export default class ErrorPage extends React.Component<void, IErrorPageState> {
           <p><b>Message:</b> {error.message}</p>
         </span>
         :
-        <p><b>Unkown error</b></p>
+        <p><b>Loading error details...</b></p>
       }
     </span>;
   }
