@@ -34,13 +34,6 @@ module.exports = {
     'fallback': path.join(__dirname, 'node_modules')
   },
   module: {
-    preLoaders: [
-      {
-        test: /\.tsx?$/,
-        loader: 'tslint',
-        include: path.join(__dirname, 'src')
-      }
-    ],
     loaders: [
       {
         test: /\.css$/,
@@ -62,13 +55,9 @@ module.exports = {
 
       {
         test: /\.tsx?$/,
-        loader: 'babel!ts',
+        loader: 'babel!ts?transpileOnly=true',
         include: path.join(__dirname, 'src')
       }
     ]
-  },
-  tslint: {
-    emitErrors: true,
-    failOnHint: true
   }
 };

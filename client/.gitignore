@@ -1,9 +1,10 @@
 node_modules/
 _dist/
 dist/
+public/dist/
+public/fonts/
 typings/
 
 npm-debug.log
-
 
 
